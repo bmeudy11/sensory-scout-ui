@@ -47,20 +47,6 @@ export default function App() {
 
   const [userToken, setUserToken] = useState(null);
 
-    const handleLogout = async() => {
-        console.log('logout called');
-        //invalidate user token
-        
-        if (Platform.OS !== 'web'){
-            await SecureStore.deleteItemAsync('userToken');
-        }else{
-            await localStorage.removeItem('userToken');
-        }
-        setUserToken(null);
-
-        console.log('user token: ', userToken);
-    };
-
   // Function to fetch data from the backend
   const fetchLocationData = async () => {
     try {
@@ -141,7 +127,6 @@ export default function App() {
               keyboardType="numeric"
             />
             <Button title="Submit Review" onPress={handleSubmitReview} />
-            <Button title="Logout" onPress={handleLogout}/>
           </View>
         </>
       ) : (

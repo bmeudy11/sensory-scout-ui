@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native-web';
 import * as SecureStore from 'expo-secure-store';
-import { Platform } from 'react-native';
+import { Platform, Button } from 'react-native';
 
 import LoginScreen from './LoginScreen';
 import MainContent from './MainContent';
@@ -64,7 +64,10 @@ export default function App() {
                     <LoginScreen onLoginSuccess={handleLoginSuccess} />
                 ) : (
                     //if token exists show main content
-                    <MainContent token={userToken} onLogout={handleLogout} />
+                    <View>
+                        <MainContent token={userToken} onLogout={handleLogout} />
+                        <Button title="Logout" onPress={handleLogout}/>
+                    </View>
                 )
             }
         </>
