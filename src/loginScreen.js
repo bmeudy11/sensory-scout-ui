@@ -2,25 +2,36 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { Platform } from 'react-native';
 
 //url for sensory-scout-api
 const apiURl = 'http://localhost:3002';
 
-export default function loginScreen({ onLoginSuccess }){
+export default function LoginScreen({ onLoginSuccess }){
     //use built in react hook to store email and password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
+        console.log('handleLogin');
         try{
-            const response = await axios.post(`${apiURl/api/auth/login}`, {email, password});
-            const {token} = response.data;
+            const response = await axios.post(`${apiURl}/api/auth/login`, {email, password});
+            console.log(`response: ${response.data}`);
 
-            await SecureStore.setItemAsync('userToken', token);
+            const {token} = response.data;
+            console.log('token: ', token);
+
+            //secure store does not work on web
+            if (Platform.OS !== 'web'){
+                await SecureStore.setItemAsync('userToken', token);
+            }else{
+                localStorage.setItem('userToken', token);
+            }
+         
             Alert.alert('Login Success', 'You are now logged in.');
             onLoginSuccess(token); 
         }catch(err){
-            console.error(err.message);
+            console.log('Catch Error: ', err.message);
             Alert.alert('Error', err.message);
         }
     };
@@ -36,7 +47,7 @@ export default function loginScreen({ onLoginSuccess }){
     };
 
     return(
-        <View style={StyleSheet.container}>
+        <View style={styleSheet.container}>
             <Text style={styleSheet.title}>SensoryScout</Text>
             <TextInput
                 style={styleSheet.input}
