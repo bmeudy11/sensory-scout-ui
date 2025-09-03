@@ -12,7 +12,17 @@ export default function loginScreen({ onLoginSuccess }){
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
+        try{
+            const response = await axios.post(`${apiURl/api/auth/login}`, {email, password});
+            const {token} = response.data;
 
+            await SecureStore.setItemAsync('userToken', token);
+            Alert.alert('Login Success', 'You are now logged in.');
+            onLoginSuccess(token); 
+        }catch(err){
+            console.error(err.message);
+            Alert.alert('Error', err.message);
+        }
     };
 
     const hanleRegister = async () => {
