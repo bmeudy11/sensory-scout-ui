@@ -20,7 +20,6 @@ export default function App() {
                 }else{
                     token = localStorage.getItem('userToken');
                 }
-                
             }catch(err){
                 console.log('token capture failed', err);
             }
@@ -55,7 +54,7 @@ export default function App() {
         setUserToken(null);
     };
 
-    console.log(`user token: ${userToken}`);
+    //console.log(`user token: ${userToken}`);
 
     return (
         <>
