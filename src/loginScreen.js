@@ -32,10 +32,8 @@ export default function LoginScreen({ onLoginSuccess }){
         console.log('handleLogin');
         try{
             const response = await axios.post(`${apiURl}/api/auth/login`, {email, password});
-            console.log(`response: ${response.data}`);
 
             const {token} = response.data;
-            console.log('token: ', token);
 
             //secure store does not work on web
             if (Platform.OS !== 'web'){
